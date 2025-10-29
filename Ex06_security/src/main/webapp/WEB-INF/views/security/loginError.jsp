@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,9 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>Welcome : Member</h2>
-	USER ID : ${pageContext.request.userPrincipal.name } <br>
-	<a href="/logout">Logout</a>
+	<h2>LOGIN 실패</h2>
+	<a href="loginForm">로그인 페이지로 가기</a>
+	
 	
 	
 </body>

@@ -8,5 +8,9 @@
 </head>
 <body>
 	<h2>Welcome : Admin</h2>
+	USER ID : ${pageContext.request.userPrincipal.name } <br>
+	<a href="/logout">Logout</a>
+<!-- security 하면 구성 및 설계 미리 다 짜고 해야함 -->
+
 </body>
 </html>

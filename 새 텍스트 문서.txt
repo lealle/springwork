@@ -1,0 +1,14 @@
+iBatis -> mybatis 
+
+ORM -> 자바에 내장되어 있음 (Spring에 되어있는거아님)
+JPA 만들어진 sql구문으로 만들 수 있음
+JPA(Hibernate, EclipseLink, DataNucleus ... )
+
+JPA - JDBC API 
+
+클래스 이름 = 테이블명
+멤버변수 = 컬럼명
+
+
+
+
