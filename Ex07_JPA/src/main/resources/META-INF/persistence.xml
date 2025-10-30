@@ -8,8 +8,11 @@
 
 	<persistence-unit name="JPAEx01" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-		<!-- <class>exam1.Member1</class> -->
+		<!-- <class>exam1.Member1</class> 
 		<class>exam2.Member2</class>
+		<class>exam3.Member3</class>
+		-->
+		<class>exam4.Member4</class>
 		
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>
@@ -19,7 +22,13 @@
 			<property name="jakarta.persistence.jdbc.password" value="1234" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect" />
 			
-			<property name="hibernate.hbm2ddl.auto" value="create" />
+			<property name="hibernate.hbm2ddl.auto" value="none" /> 
+			<!-- create-drop : create or 있으면 삭제후 다시 만듬 
+			update : 수정
+			delete : 삭제
+			none : 읽기 (select)
+			
+			 -->
 			<property name="show_sql" value="true" />
 			<property name="hibernate.temp.use_jdbc_metadata_defaults" value="false" />
 		</properties>
