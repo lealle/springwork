@@ -10,13 +10,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>Member JPA #02</h1>
-	<c:if test= "${member !=null }">
+	<h1>Member JPA #01 - selectByNameLike</h1>
+	<c:forEach var="member" items="${member}">
 		ID : ${member.id }<p/>
 		이름 : ${member.username }<p/>
-		EMAIL : ${member.email }<p/>
-	
-	</c:if>
+		날짜 : ${member.email }<p/>
+		<hr>
+	</c:forEach>
 	
 	
 	

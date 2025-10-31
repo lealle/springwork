@@ -13,11 +13,12 @@
 	<a href="selectAll">데이터 전체 조회</a><br>
 	<a href="selectById?id=1">개별조회 byId</a><br>
 	<hr>
-	<a href="selectByName?name=이서준">개별조회 by Name</a><br>
-	<a href="selectByEmail?email=test5@tjoeun.com">개별조회 by Name</a><br>
-	<a href="selectByNameLike?name=김">리스트 조회 by Name Like</a><br>
-	<a href="selectByNameLikeNameDesc?name=김">리스트 조회 by Name Like Desc</a><br>
+	<a href="selectByName?username=김민수">조회 by Username</a><br>
+	<a href="selectByEmail?email=test5@tjoeun.com">개별조회 by Email</a><br>
+	<a href="selectByNameLike?username=김">리스트 조회 by Username Like</a><br>
+	<a href="selectByNameLikeNameDesc?username=김">리스트 조회 by Username Like Desc</a><br>
 	
+	<a href="selectByNameLikeOrder?username=김">리스트 조회 by Username Like Order</a><br>
 	
 	
 	<a href="delete?id=2">데이터 삭제</a><br>

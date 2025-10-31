@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.study.springboot.domain.Member;
@@ -44,6 +45,34 @@ public class MemberService {
 
 	public List<Member> selectAll() {
 		List<Member> lmem = mRepository.findAll();
+		return lmem;
+	}
+
+
+	public List<Member> selectByUsername(String username) {
+		List<Member> lmem = mRepository.findByUsername(username);
+		return lmem;
+	}
+
+	public Optional<Member> selectByEmail(String email) {
+		Optional<Member> fEmail = mRepository.findByEmail(email);
+		return fEmail;
+	}
+
+	public List<Member> selectByUsernameLike(String username) {
+		List<Member> lmem = mRepository.findByUsernameLike(username);
+		return lmem;
+	}
+
+	public List<Member> selectByUsernameLikeDesc(String username) {
+		List<Member> lmem = mRepository.findByUsernameLikeOrderByUsernameDesc(username);
+//		List<Member> lmem = mRepository.findByUsernameLikeOrderByUsernameDescEmailAsc(username);
+//		List<Member> lmem = mRepository.findByUsernameLikeOrderByUsernameDescEmailDesc(username);
+		return lmem;
+	}
+
+	public List<Member> selectByUsernameLikeOrder(String username, Sort sort) {
+		List<Member> lmem = mRepository.findByUsernameLike(username, sort);
 		return lmem;
 	}
 	

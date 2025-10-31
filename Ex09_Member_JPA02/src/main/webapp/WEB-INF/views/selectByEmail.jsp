@@ -10,7 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>Member JPA #02</h1>
+	<h1>Member JPA #02 - byEmail</h1>
 	<c:if test= "${member !=null }">
 		ID : ${member.id }<p/>
 		이름 : ${member.username }<p/>
