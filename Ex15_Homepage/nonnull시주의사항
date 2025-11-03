@@ -1,0 +1,79 @@
+질문하신 내용은 Lombok과 JPA(혹은 Jackson) 같은 프레임워크를 함께 사용할 때 자주 발생하는 핵심적인 '딜레마'입니다.
+
+간단히 요약하면, **@NonNull로 인해 생긴 생성자(@RequiredArgsConstructor)**가 자바의 기본 생성자를 사라지게 만드는데, 프레임워크(JPA 등)는 그 기본 생성자를 꼭 필요로 하기 때문입니다.
+
+이 과정을 단계별로 설명해 드릴게요.
+
+1단계: @NonNull과 @RequiredArgsConstructor
+@NonNull 어노테이션은 "이 필드는 null이면 안 된다"는 뜻입니다. 개발자는 보통 이런 필수 필드들을 모아서 생성자를 만듭니다.
+
+Lombok에서는 이 작업을 @RequiredArgsConstructor가 대신해줍니다. 이 어노테이션은 final 필드나 @NonNull이 붙은 필드만을 골라서 매개변수로 받는 생성자를 자동으로 만들어줍니다.
+
+Java
+
+@Getter
+@RequiredArgsConstructor // <-- 1. 이것이 생성자를 만듦
+public class User {
+    
+    @NonNull // <-- 2. 이 필드 때문에
+    private String username;
+    private int age;
+
+    /*
+     Lombok이 자동으로 생성하는 코드:
+     public User(@NonNull String username) {
+         this.username = username;
+     }
+    */
+}
+2단계: 자바의 "기본 생성자" 규칙
+자바 클래스는 개발자가 아무런 생성자도 만들지 않으면, 자바 컴파일러가 눈에 보이지 않는 기본 생성자(매개변수가 없는, public User() {})를 자동으로 만들어줍니다.
+
+하지만, 개발자가 단 하나라도 생성자를 직접 만들면(지금은 Lombok이 만들었지만), 자바 컴파일러는 기본 생성자를 자동으로 만들어주지 않습니다.
+
+즉, 1단계의 User 클래스는 public User(String username) 생성자만 가지고 있고, public User() 생성자는 없는 상태가 됩니다.
+
+3단계: 프레임워크(JPA, Jackson)의 요구
+JPA(하이버네이트)나 Jackson(JSON 라이브러리) 같은 프레임워크는 데이터를 객체로 만들 때, **리플렉션(Reflection)**이라는 기술을 사용합니다.
+
+이들은 다음과 같은 2단계로 동작하는 경우가 많습니다.
+
+먼저, 기본 생성자(User())를 호출해서 텅 빈 User 객체를 하나 만듭니다.
+
+그다음, DB에서 읽어온 값이나 JSON 데이터를 setter나 필드 접근을 통해 텅 빈 객체에 채워 넣습니다.
+
+4단계: 문제 발생 및 해결
+JPA 같은 프레임워크가 3단계의 1번(기본 생성자 호출)을 시도할 때, 2단계에서 설명한 이유로 User 클래스에 기본 생성자가 없어서 에러가 발생합니다. (NoSuchMethodException: ...<init>())
+
+이것이 바로 질문하신 이유입니다.
+
+@RequiredArgsConstructor가 필수 필드 생성자를 만들었고,
+
+그 때문에 기본 생성자가 사라졌는데,
+
+JPA는 기본 생성자를 필요로 합니다.
+
+따라서 이 문제를 해결하기 위해, 우리는 Lombok에게 **"@RequiredArgsConstructor로 생성자를 만드는 건 좋은데, 그것과 별개로 JPA가 쓸 기본 생성자도 하나 만들어줘"**라고 명시적으로 요청해야 합니다.
+
+이것이 바로 @NoArgsConstructor를 추가하는 이유입니다.
+
+💡 최종 권장 형태 (JPA Entity 예시)
+@NonNull 필드가 있는데 @NoArgsConstructor를 쓰면, username이 null인 객체가 잠시 만들어질 수 있습니다. 이는 위험해 보일 수 있지만, JPA가 객체를 생성한 직후 바로 값을 채워주기 때문에 허용됩니다.
+
+다만, 개발자가 실수로 이 기본 생성자를 호출하는 것을 막기 위해 access = AccessLevel.PROTECTED 옵션을 주는 것이 모범 사례(Best Practice)입니다.
+
+Java
+
+@Getter
+@Entity // 3. JPA는 기본 생성자가 필요함
+@RequiredArgsConstructor // 1. username을 받는 생성자를 만듦
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 4. JPA를 위해 기본 생성자를 추가
+public class User {
+    
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @NonNull // 2. 필수 필드
+    private String username;
+}
