@@ -1,74 +1,80 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymleaf.org">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        a {
-            text-decoration: none;
-            color: black;
-        }
-    </style>
-
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="/css/index.css" rel="stylesheet">
 </head>
-
 <body>
-    <div th:fragment="fragment-menu">
-        <h1>Springboot HomePage</h1>
+	<div th:fragment="fragment-menu">
+		<h1 align="center">SpringBoot HomePage</h1>
+		<div th:if="${loginUser == null}" align="right">
+			<form action="login" method="post">
+				<table>
+					<tr>
+						<td>아이디</td>
+						<td><input name="id" required></td>
+						<td rowspan="2"><input type="submit" value="로그인" style="height:50px;"></td>
+					</tr>
+					<tr>
+						<td>비밀번호</td>
+						<td><input type="password" name="password" required></td>
+					</tr>
+					<tr>
+						<td colspan="3" align="center">
+							<a href="enrollForm">회원가입</a>&emsp;
+							<a href="">아이디/비밀번호찾기</a>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		<div th:if="${loginUser != null}" align="right">
+			<table>
+				<tr>
+					<td colspan="2">
+					<!--/*  thymeleaf의 주석 
+						* 문자열 합치기 
+						<h3 th:text="${loginUser.name}">님 환영합니다</h3> ->  이름만 나옴
+						태그안에 쓰기 
+						
+						<h3 th:text="${loginUser.name} + '님 환영합니다'"></h3> 
+						+ 사용 
+						
+						<h3 th:text="|${loginUser.name}님 환영합니다|"></h3>
+						|문자열|로 가능 
+						
+						*/-->
+					
+					
+					
+						<h3 th:text="${loginUser.name}">님 환영합니다</h3>
+						<!--/* 
+						 	data 변수에 = <b>Hello</b> 들어있다면
+						 	[[${data}]]  -> <b>Hello</b>  -> <b>도 문자로 인식
+						 	[] 태그 인식 x  
+						 	[(${data})]  -> Hello  -> 굵은 글씨로 출력
+						 	() 태그 인식 o
+						*/-->
+					</td>
+				</tr>
+				<tr>
+					<td><a href="">마이페이지 / </a></td>
+					<td><a href="logout">로그아웃</a></td>
+				</tr>
+			</table>
+		</div>
 
-        <!-- 로그인 전 -->
-        <div align="right">
-
-            <form action="" method="post">
-                <table>
-                    <tr>
-                        <td>아이디</td>
-                        <td><input name="id" required></td>
-                        <td rowspan="2"><input type="submit" value="로그인"></td>
-                    </tr>
-                    <tr>
-                        <td>비밀번호</td>
-                        <td><input type="password" name="password" required></td>
-                    </tr>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            <a href="">회원가입</a>&emsp;
-                            <a href="">아이디/비밀번호찾기</a>
-
-                        </td>
-                    </tr>
-                </table>
-            </form>
-        </div>
-        <div align="right">
-            <table>
-                <tr>
-                    <td colspan="2">
-                        <h3>??님 환영합니다</h3>
-                    </td>
-                </tr>
-                <tr>
-                    <td><a href="">마이페이지</a></td>
-                    <td><a href="">로그아웃</a></td>
-                </tr>
-            </table>
-
-        </div>
-
-        <!-- 로그인 후 -->
-    </div>
-    <table align="center">
-        <tr>
-            <td>HOME</td>
-            <td>공지사항</td>
-            <td>게시판</td>
-            <td>찾아오는길</td>
-        </tr>
-    </table>
-
+		<br>
+		<table align="center" class="nav-area">
+			<tr>
+				<td onclick="location.href='index'">HOME</td>
+				<td onclick="location.href='index'">공지사항</td>
+				<td onclick="location.href='list'">게시판</td>
+				<td onclick="location.href='index'">Info</td>
+			</tr>
+		</table>
+	</div>
+	
 </body>
-
 </html>
