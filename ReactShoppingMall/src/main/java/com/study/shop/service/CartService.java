@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.study.shop.domain.Cart;
 import com.study.shop.repository.CartRepository;
@@ -16,7 +17,7 @@ public class CartService {
 	CartRepository cRepository;
 	
 	public Cart insertCart(Cart cart) {
-		Optional<Cart> result = cRepository.findById(cart.getId());
+		Optional<Cart> result = cRepository.findByClothIdAndMemId(cart.getClothId(), cart.getMemId());
 		if(result.isPresent()) {
 			result.get().setCount(result.get().getCount()+1);
 			cRepository.save(result.get());
